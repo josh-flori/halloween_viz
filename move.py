@@ -26,7 +26,8 @@ img = Image.new('RGB', (1920,1080), color = (26, 26, 26))
 
 
 # set font
-fnt = ImageFont.truetype('/Library/Fonts/Verdana.ttf', 20)
+fnt1 = ImageFont.truetype('/Library/Fonts/Verdana.ttf', 40)
+fnt2 = ImageFont.truetype('/Library/Fonts/Verdana.ttf', 35)
 
 d = ImageDraw.Draw(img)
 
@@ -63,11 +64,11 @@ pumpkin = Image.open("/users/josh.flori/desktop/pumpkin.png")
 
 
 d.text((x_start+10,y_start-9), x, font=fnt1, fill=(255, 92, 57)) # 5 is padding, 9 is alignment
-d.text((x_start-15,y_start+25), events['TIME'][0][0:4], font=fnt1, fill=(255, 92, 57))
+d.text((x_start-15,y_start+40), events['TIME'][0][0:4], font=fnt2, fill=(255, 92, 57))
 
 for i in range(0,len(vertical_axis),5):
-    q=25 if i<10 else 45
-    d.text((x_start-q,y_start-(vert_per_tick*i)-30), str(vertical_axis[i]), font=fnt1, fill=(255, 92, 57))
+    q=45 if i<10 else 65
+    d.text((x_start-q,y_start-(vert_per_tick*i)-50), str(vertical_axis[i]), font=fnt1, fill=(255, 92, 57))
 
 img.save(directory+'/0.png')
 
@@ -77,13 +78,16 @@ for i in range(1,n):
     d = ImageDraw.Draw(composite)
     if i%10==0:
         d.text((x_start+10+(i*distance_per_tick),y_start-9), x, font=fnt1, fill=(255, 92, 57)) # 5 is padding, 9 is alignment
-        d.text((x_start-15+(i*distance_per_tick),y_start+25), events['TIME'][i][0:4], font=fnt1, fill=(255, 92, 57))
+        d.text((x_start-15+(i*distance_per_tick),y_start+40), events['TIME'][i][0:4], font=fnt2, fill=(255, 92, 57))
         composite.save(directory+'/'+str(i)+'.png')
     else:
         d.text((x_start+10+(i*distance_per_tick),y_start-11), ".", font=fnt1, fill=(255, 92, 57))
-        composite.paste(pumpkin, (x_start+10+(i*10), y_start-20-(11*events['cumsum'][i]))), pumpkin)
-        composite.save(directory+'/'+str(i)+'.png')
-    
+        if events['cumsum'][i-1] != events['cumsum'][i]:
+            composite.paste(pumpkin, (x_start+10+(i*distance_per_tick), y_start-50-(int(vert_per_tick)*events['cumsum'][i])), pumpkin)
+            composite.save(directory+'/'+str(i)+'.png')
+        else:
+            composite.save(directory+'/'+str(i)+'.png')
+
     
 
 

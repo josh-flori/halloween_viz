@@ -28,7 +28,7 @@ directory='/users/josh.flori/desktop'
 # The purpose of this script 
 
 events=pd.read_csv('/users/josh.flori/desktop/events.csv')
-events['cumsum']=events['NUM_VISITOR_GROUPS'].cumsum()
+events['cumsum']=events['groups'].cumsum()
 
 
 
@@ -54,11 +54,13 @@ x_start=100
 x_end=1800
 # these are inverse of what you expect
 y_start=980
-y_end=140
+y_end=240
 
-d.rectangle(((x_start, y_start), (x_end, y_end)))
-d.rectangle(((x_start, y_end), (x_end, y_end)),outline=(26, 26, 26))
-d.rectangle(((x_end, y_start), (x_end, y_end)),outline=(26, 26, 26))
+
+
+d.rectangle(((x_start, y_start), (x_end, y_end-70)))
+d.rectangle(((x_start, y_end-70), (x_end, y_end-70)),outline=(26, 26, 26))
+d.rectangle(((x_end, y_start), (x_end, y_end-70)),outline=(26, 26, 26))
 
 
 
@@ -68,7 +70,7 @@ n=events.shape[0]
 length=x_end-x_start-10 # 10 is visual padding
 height=y_start-y_end
 distance_per_tick=length/n
-vertical_axis=list(range(events['cumsum'][n-1]+1))
+vertical_axis=list(range(events['cumsum'][n-1]+2))
 vert_per_tick=height/vertical_axis[-1]
 
 x="|"
@@ -83,7 +85,7 @@ d.text((x_start+10,y_start-9), x, font=fnt1, fill=(255, 92, 57)) # 5 is padding,
 d.text((x_start-15,y_start+40), events['TIME'][0][0:4], font=fnt2, fill=(255, 92, 57))
 
 # AXIS LABELS
-d.text((x_start-70,22), "Total Trick\n   - or - \n Treaters", font=fnt3, fill=(200, 200, 200))
+d.text((x_start-70,30), "Total Trick\n   - or - \n Treaters", font=fnt3, fill=(200, 200, 200))
 d.text((1840,1020), "PM", font=fnt2, fill=(200, 200, 200))
 
 
